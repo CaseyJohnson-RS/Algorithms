@@ -2,7 +2,7 @@
 def left_binsearch(N, target):
 
     """
-    Левосторонний бинарный поиск в массиве
+    Левосторонний бинарный поиск в массиве. Если target больше max(N), то будет возвращено -1.
 
     Args:
         N: массив
@@ -10,9 +10,7 @@ def left_binsearch(N, target):
 
     Returns:
         Индекс первого i, при котором N[i] >= target
-    
-    ## Warning
-        Если target больше max(N), то будет возвращено len(N) - 1
+        
     """
 
     l, r = 0, len(N) - 1
@@ -22,14 +20,14 @@ def left_binsearch(N, target):
             l = m
         else:
             r = m
-    L = l if N[l] == target else r
-    L = 0 if N[0] > target else L
+    L = l if N[l] >= target else r
+    L = -1 if target > N[-1] else L
     return L
 
 
 def right_binsearch(N, target):
     """
-    Правосторонний бинарный поиск в массиве
+    Правосторонний бинарный поиск в массиве. Если target меньше min(N), то будет возвращено -1.
 
     Args:
         N: массив
@@ -37,9 +35,6 @@ def right_binsearch(N, target):
 
     Returns:
         Индекс последнего i, при котором N[i] <= target
-    
-    ## Warning
-        Если target больше min(N), то будет возвращено 0
     """
 
     l, r = 0, len(N) - 1
@@ -49,27 +44,38 @@ def right_binsearch(N, target):
             l = m
         else:
             r = m
-    R = r if N[r] == target else l
-    R = len(N) - 1 if N[-1] < target else R
+    R = r if N[r] <= target else l
+    R = -1 if target < N[0] else R
     return R
 
 
-### Троичный поиск минимума функции ### 
-# 
-# Возвращает X, при котором функция минимальна
-def ternary_search(f, left, right):
+def ternary_search(f, left, right, delta=10**(-7)):
+    """
+    Тернарный поиск минимума функции, которая сначала строго убывает, а затем строго возрастает на отрезке [left; right].
 
-    while right - left > 10**(-10):
+    Args:
+        f: массив
+        left: левая граница поиска
+        right: правая граница поиска
+        delta: точность
 
-        delta = (right - left) / 3
+    Returns:
+        Значение аргумента функции f, при котором функция минимальная на отрезке [left; right]
+    """
+    fl, fr, fm = f(left), f(right), f( (left + right) / 2 )
+    if  fl < fm and fr < fm:
+        raise ValueError("The function does not satisfy the condition: first it strictly decreases, and then it strictly increases.")
 
-        if f(left + delta) < f(right - delta):
-            right -= delta
+    while right - left > delta:
+
+        delta_x = (right - left) / 3
+
+        if f(left + delta_x) < f(right - delta_x):
+            right -= delta_x
         else:
-            left += delta
+            left += delta_x
     
     return (right + left) / 2
-
 
 
 def binary_search_by_function(f, left, right, mode='r', delta = 10**(-7)): 
