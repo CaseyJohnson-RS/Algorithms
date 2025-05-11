@@ -90,7 +90,8 @@ def binary_search_by_function(f, left, right, mode='r', delta = 10**(-7)):
         delta: точность (используется только при mode='r')
 
     Returns:
-        Точка, в которой f равняется 0
+        Точка, в которой f равняется 0 с точностью до delta. ВНИМАНИЕ: функция возвращает БЛИЖАЙШУЮ точку, поэтому
+        истинное решение может лежать или слева, или справа.
     """
 
     if f(left) * f(right) > 0:  raise ValueError(f"The function is not monotone or has no solutions on the interval [{left}; {right}]")
