@@ -60,7 +60,7 @@ def ternary_search(f, left, right, delta=10**(-7)):
         delta: точность
 
     Returns:
-        Значение аргумента функции f, при котором функция минимальная на отрезке [left; right]
+        Значение аргумента функции f с точностью до delta, при котором функция минимальная на отрезке [left; right]
     """
     fl, fr, fm = f(left), f(right), f( (left + right) / 2 )
     if  fl < fm and fr < fm:
