@@ -14,7 +14,7 @@ private:
     int* tree;                          // Дерево отрезков в виде массива
     int** cover_tree;                   // Дерево покрытия
     
-    // ...
+    // ###  Место для дополнительных деревьев  ###
     
 public:
 
@@ -24,7 +24,7 @@ public:
         {
             tree[node] = start < length ? array[start] : plug;
             
-            // ...
+            // ###  Место для доопределения дополнительных деревьев  ###
         }
         else 
         {
@@ -33,7 +33,7 @@ public:
             build(array, 2 * node + 1, start,   mid, length);
             build(array, 2 * node + 2, mid + 1, end, length);
             
-            // ...
+            // ###  Место расчета листьев всех деревьев  ###
         }
         
         cover_tree[node] = new int[2]{start, end};
@@ -48,7 +48,7 @@ public:
         tree = new int[tree_length];
         cover_tree = new int*[tree_length];
         
-        // ...
+        // ###  Место выделения памяти под дополнительные деревья  ###
         
         build(array, 0, 0, n - 1, length);
     }
@@ -58,16 +58,16 @@ public:
     {
         // Что-то возвращаем, если узел был покрыт полностью
         if (l <= cover_tree[node][0] and cover_tree[node][1] <= r)      
-            return new int[2] {tree[node], additional_tree[node]};
+            return;
         
         // Что-то возвращаем, если узел не был даже задет
         if (r < cover_tree[node][0] or cover_tree[node][1] < l)
-            return new int[2] {0,0};
+            return;
         
         // Если узел был перекрыт частично, то мы делегируем расчёт своим потомкам
         int* left_ans = Query(l, r, 2 * node + 1);
         int* right_ans = Query(l, r, 2 * node + 2);
         
-        // ...
+        // ###  Определяем логику расчёта при неполном перекрытии  ###
     }
 };
